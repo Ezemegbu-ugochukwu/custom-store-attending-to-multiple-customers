@@ -33,20 +33,20 @@ public class AdminImplTest {
 
     @Test
     public void storeShouldHaveQuantityOfGoods() throws StaffNotAuthorizedException, IOException {
-        adminOperationImpl.addProductsToStore(ugoBossStore, manager, excelFilePath);
+        adminOperationImpl.addProductsToStore(ugoBossStore, manager);
         assertEquals(6, ugoBossStore.getStocks().size());
     }
 
     @Test
     public void storeShouldContainGoods() throws StaffNotAuthorizedException, IOException {
-        adminOperationImpl.addProductsToStore(ugoBossStore, manager, excelFilePath);
+        adminOperationImpl.addProductsToStore(ugoBossStore, manager);
         assertTrue(ugoBossStore.getStocks().contains("MacBook pro"));
         assertTrue(ugoBossStore.getStocks().contains("Tecno Camera"));
     }
 
     @Test
     public void customerCartShouldNotContainProductAfterPurchase() throws StaffNotAuthorizedException, InsufficientFundException, OutOfStockException, IOException {
-        adminOperationImpl.addProductsToStore(ugoBossStore, manager, excelFilePath);
+        adminOperationImpl.addProductsToStore(ugoBossStore, manager);
         customerImpl.addToCart(ugoBossStore, customer, "MacBook pro", 5);
         adminOperationImpl.sellProduct(ugoBossStore, cashier, customer);
         assertTrue(customer.getCart().isEmpty());
@@ -54,12 +54,12 @@ public class AdminImplTest {
 
     @Test
     public void testForUnAuthorisedAddingToCompanyStock(){
-        assertThrows(StaffNotAuthorizedException.class, ()->adminOperationImpl.addProductsToStore(ugoBossStore, cashier, excelFilePath));
+        assertThrows(StaffNotAuthorizedException.class, ()->adminOperationImpl.addProductsToStore(ugoBossStore, cashier));
     }
 
     @Test
     public void testForUnAuthorisedSellingOfProducts() throws StaffNotAuthorizedException, OutOfStockException, IOException {
-        adminOperationImpl.addProductsToStore(ugoBossStore, manager, excelFilePath);
+        adminOperationImpl.addProductsToStore(ugoBossStore, manager);
         customerImpl.addToCart(ugoBossStore, customer, "MacBook pro", 5);
         assertThrows(StaffNotAuthorizedException.class, ()->adminOperationImpl.sellProduct(ugoBossStore, manager, customer));
     }
@@ -67,16 +67,22 @@ public class AdminImplTest {
     @Test
     public void shouldThrowInsufficientFundException() throws StaffNotAuthorizedException, OutOfStockException, IOException {
         Customer customer2 = new Customer("Chisom", "Ayuba", Gender.MALE, 4_000);
-        adminOperationImpl.addProductsToStore(ugoBossStore, manager, excelFilePath);
+        adminOperationImpl.addProductsToStore(ugoBossStore, manager);
         customerImpl.addToCart(ugoBossStore, customer2, "MacBook pro", 5);
         assertThrows(InsufficientFundException.class, ()->adminOperationImpl.sellProduct(ugoBossStore, cashier, customer2));
     }
 
     @Test
     public void staffCanSeeGoodsByCategory() throws StaffNotAuthorizedException {
-        adminOperationImpl.addProductsToStore(ugoBossStore, manager, excelFilePath);
+        adminOperationImpl.addProductsToStore(ugoBossStore, manager);
         assertEquals( 2, adminOperationImpl.viewProductByCategory(ugoBossStore, "Laptops").size());
         assertEquals( "Laptops", adminOperationImpl.viewProductByCategory(ugoBossStore, "Laptops").get(0).getProductCategory());
         assertEquals( "Phones", adminOperationImpl.viewProductByCategory(ugoBossStore, "Phones").get(1).getProductCategory());
     }
+//    @Test
+//    public void testForSellingToCustomerOnQueue () throws StaffNotAuthorizedException, InsufficientFundException {
+//        assertFalse(ugoBossStore.getCustomersQueue().isEmpty());
+//        adminOperationImpl.sellToCustomersInQueue(ugoBossStore, cashier);
+//        assertTrue(ugoBossStore.getCustomersQueue().isEmpty());
+//    }
 }

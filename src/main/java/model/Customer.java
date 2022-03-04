@@ -1,11 +1,12 @@
 package model;
 
+import lombok.ToString;
 import model.common.Person;
 import enums.Gender;
-
 import java.util.HashMap;
 import java.util.Map;
 
+@ToString
 public class Customer extends Person {
   private double walletBalance;
   private final Map<String, Integer>  cart = new HashMap<>();

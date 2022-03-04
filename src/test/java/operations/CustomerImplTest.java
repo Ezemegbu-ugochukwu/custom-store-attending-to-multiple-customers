@@ -28,7 +28,7 @@ public class CustomerImplTest {
     public void setUp() throws StaffNotAuthorizedException {
         customerOperationImpl = new CustomerOperationImpl();
         adminOperation = new AdminOperationImpl();
-       adminOperation.addProductsToStore(ugoBossStore, manager, excelFilePath);
+       adminOperation.addProductsToStore(ugoBossStore, manager);
 
    }
 
@@ -82,9 +82,8 @@ public class CustomerImplTest {
 
     @Test
     public void customerCanSeeGoodsByCategory() throws StaffNotAuthorizedException {
-       AdminOperationImpl adminOperationImpl = new AdminOperationImpl();
-        assertEquals( 2, adminOperationImpl.viewProductByCategory(ugoBossStore, "Laptops").size());
-        assertEquals( "Laptops", adminOperationImpl.viewProductByCategory(ugoBossStore, "Laptops").get(0).getProductCategory());
-        assertEquals( "Phones", adminOperationImpl.viewProductByCategory(ugoBossStore, "Phones").get(1).getProductCategory());
+        assertEquals( 2, customerOperationImpl.viewProductByCategory(ugoBossStore, "Laptops").size());
+        assertEquals( "Laptops", customerOperationImpl.viewProductByCategory(ugoBossStore, "Laptops").get(0).getProductCategory());
+        assertEquals( "Phones", customerOperationImpl.viewProductByCategory(ugoBossStore, "Phones").get(1).getProductCategory());
     }
 }

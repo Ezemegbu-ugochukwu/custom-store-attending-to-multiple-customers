@@ -14,6 +14,7 @@ public interface CommonOperations {
                 if(product.getProductCategory().equalsIgnoreCase(category))
                     productArrayList.add(product);
             }
+        System.out.println(productArrayList);
             return productArrayList;
     }
 }

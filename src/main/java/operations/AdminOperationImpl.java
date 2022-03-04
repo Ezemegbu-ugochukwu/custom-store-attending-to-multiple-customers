@@ -12,11 +12,12 @@ import java.io.IOException;
 public class AdminOperationImpl implements AdminOperations{
 
     @Override
-    public void addProductsToStore(Store store, Staff staff, String filePath) throws StaffNotAuthorizedException{
+    public void addProductsToStore(Store store, Staff staff) throws StaffNotAuthorizedException{
         if (!staff.getDesignation().equals(Designation.MANAGER)) throw new StaffNotAuthorizedException("You are not authorized to perform this operation");
 
             try {
-                XSSFWorkbook xssfWorkbook = new XSSFWorkbook("src/main/resources/excelFiles/hugo_store.xlsx");
+                XSSFWorkbook xssfWorkbook = new XSSFWorkbook("src/main/resources/excelFiles/ugo-store.xlsx");
+//                XSSFWorkbook xssfWorkbook = new XSSFWorkbook(path);
                 XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
                 for (int i = 1; i <= xssfSheet.getLastRowNum(); i++) {
                 XSSFRow xssfRow = xssfSheet.getRow(i);
@@ -29,6 +30,12 @@ public class AdminOperationImpl implements AdminOperations{
                 } catch (IOException e) {
                 e.printStackTrace();
             }
+    }
+
+    @Override
+    public void sellToCustomersInQueue(Store store, Staff staff) throws StaffNotAuthorizedException, InsufficientFundException {
+        while(store.getCustomersQueue().hasNext())
+            sellProduct(store, staff, store.getCustomersQueue().poll());
     }
 
     @Override

@@ -6,32 +6,79 @@ import exceptions.*;
 import model.*;
 import operations.AdminOperationImpl;
 import operations.AdminOperations;
+import operations.CustomerOperationImpl;
 import recruitment.RecruitmentImpl;
 
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws InsufficientFundException, OutOfStockException, ApplicantAlreadyAppliedException, NotTheExactQuantityException, CustomerNotCheckedOutException, NotQualifiedException, StaffNotAuthorizedException, IOException {
-        AdminOperations adminOperations = new AdminOperationImpl();
-//        CustomerImpl customerOperations = new CustomerImpl();
-        ApplicationImpl applicationImpl = new ApplicationImpl();
-        RecruitmentImpl recruitmentImpl = new RecruitmentImpl();
+    public static void main(String[] args) throws InsufficientFundException, OutOfStockException, ApplicantAlreadyAppliedException, NotTheExactQuantityException, CustomerNotCheckedOutException, NotQualifiedException, StaffNotAuthorizedException, IOException, CannotJoinQueueTwice {
+         AdminOperationImpl adminOperation = new AdminOperationImpl();
+        CustomerOperationImpl customerOperation = new CustomerOperationImpl();
+        RecruitmentImpl recruitment = new RecruitmentImpl();
+
         Applicant charles = new Applicant("charles","john","106PARK",Gender.MALE, Qualification.BSC);
 
         Store hugoBoss = new Store("hugoBoss");
         Staff manager = new Staff("John", "Boss", Gender.MALE, Designation.MANAGER);
         Staff cashier = new Staff("John", "Boy", Gender.MALE, Designation.CASHIER);
-        Customer ugo = new Customer("Ugonna", "Chukwu", Gender.MALE, 800000);
-        Product macBookPro = new Product("MacBook pro","Laptop",250000.00,30);
+        Customer ugo = new Customer("Ugonna", "Chukwu", Gender.MALE, 80000000);
+        Customer love = new Customer("love", "Chukwu", Gender.MALE, 80000000);
+        Customer moses = new Customer("moses", "Chukwu", Gender.MALE, 80000000);
+        Customer ben = new Customer("ben", "Chukwu", Gender.MALE, 80000000);
 
 
-        adminOperations.addProductsToStore(hugoBoss, manager, "src/main/resources/excelFiles/hugo_store.xlsx");
-//        System.out.println(Arrays.toString(hugoBoss.getStocks()));
+
+
+        adminOperation.addProductsToStore(hugoBoss, manager);
 //        System.out.println(hugoBoss.getStocks());
 
-        for (int i = 0; i < hugoBoss.getStocks().size(); i++){
-            System.out.println(hugoBoss.getStocks().get(i));
+
+
+
+
+
+    //    adminOperation.viewProductByCategory(hugoBoss, "Laptops");
+//        customerOperation.addToCart(hugoBoss, ugo, "MacBook pro", 20);
+        customerOperation.addToCart(hugoBoss, ugo, "Iphone", 3);
+        customerOperation.addToCart(hugoBoss, love, "MacBook pro", 1);
+        customerOperation.addToCart(hugoBoss, moses, "MacBook pro", 7);
+        customerOperation.addToCart(hugoBoss, ben, "Tecno ", 3);
+
+        customerOperation.joinQueue(hugoBoss,ben);
+        customerOperation.joinQueue(hugoBoss,love);
+        customerOperation.joinQueue(hugoBoss,ugo);
+        customerOperation.joinQueue(hugoBoss,moses);
+
+        while (hugoBoss.getCustomersQueue().hasNext()){
+            System.out.println(hugoBoss.getCustomersQueue().poll());
         }
+
+
+
+
+//        customerOperation.addToCart(hugoBoss, ugo, "Tecno ", 1);
+//        System.out.println(ugo.getCart());
+//        adminOperation.sellProduct(hugoBoss,cashier,ugo);
+
+//        System.out.println(ugo);
+
+//        customerOperation.addToCart(hugoBoss,ugo,"Tecno ", 1);
+
+//        System.out.println(ugo.getCart());
+
+  //      adminOperation.sellProduct(hugoBoss, cashier, ugo);
+
+ //       System.out.println(ugo.getCart());
+//        System.out.println(hugoBoss.getStocks());
+
+//        adminOperations.addProductsToStore(hugoBoss, manager, "src/main/resources/excelFiles/hugo_store.xlsx");
+//        System.out.println(Arrays.toString(hugoBoss.getStocks()));
+//        System.out.println(hugoBoss.getStocks());
+//
+//        for (int i = 0; i < hugoBoss.getStocks().size(); i++){
+//            System.out.println(hugoBoss.getStocks().get(i));
+//        }
   //      applicationImpl.apply(charles,hugoBoss);   //apply to store
   //      System.out.println(hugoBoss.getApplicants());
 
@@ -48,6 +95,7 @@ public class Main {
 //
 //        customerOperations.buyProduct(ugo);    //buy product
 //        adminOperations.sellProduct(cashier,ugo);
+
 
 
 

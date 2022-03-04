@@ -2,6 +2,7 @@ package operations;
 
 import enums.Designation;
 import enums.Gender;
+import exceptions.CannotJoinQueueTwice;
 import exceptions.InsufficientFundException;
 import exceptions.OutOfStockException;
 import exceptions.StaffNotAuthorizedException;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 public class AdminImplTest {
+
     Store ugoBossStore = new Store("Decagon");
     Customer ugo = new Customer("ugo","Eze", Gender.MALE,500);
     AdminOperationImpl adminOperationImpl;
@@ -24,6 +26,7 @@ public class AdminImplTest {
     Staff  manager = new Staff("Chukuka", "Ebuka", Gender.MALE, Designation.MANAGER);
     String excelFilePath = "src/main/resources/excelFiles/hugo_store.xlsx";
     Customer customer = new Customer("ugo","Eze", Gender.MALE,15_000_000.00);
+    Customer customer1 = new Customer("abey","Ezeh", Gender.MALE, 20);
 
     @Before
     public void setUp(){
@@ -79,10 +82,13 @@ public class AdminImplTest {
         assertEquals( "Laptops", adminOperationImpl.viewProductByCategory(ugoBossStore, "Laptops").get(0).getProductCategory());
         assertEquals( "Phones", adminOperationImpl.viewProductByCategory(ugoBossStore, "Phones").get(1).getProductCategory());
     }
-//    @Test
-//    public void testForSellingToCustomerOnQueue () throws StaffNotAuthorizedException, InsufficientFundException {
-//        assertFalse(ugoBossStore.getCustomersQueue().isEmpty());
-//        adminOperationImpl.sellToCustomersInQueue(ugoBossStore, cashier);
-//        assertTrue(ugoBossStore.getCustomersQueue().isEmpty());
-//    }
+    @Test
+    public void testForSellingToCustomerOnQueue () throws StaffNotAuthorizedException, InsufficientFundException, CannotJoinQueueTwice {
+        //assertFalse(ugoBossStore..getCustomersQueue().isEmpty());
+        customerImpl.joinQueue(ugoBossStore,customer);
+        adminOperationImpl.sellToCustomersInQueue(ugoBossStore, cashier);
+        assertTrue(ugoBossStore.getCustomersQueue().isEmpty());
+    }
+
+
 }

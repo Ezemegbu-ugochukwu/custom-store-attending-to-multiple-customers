@@ -60,12 +60,12 @@ public class TestForPriorityQueue {
      assertEquals(ben, ugoBossStore.getCustomersQueue().poll());
 
     }
-    @Test
-    public void testForSellingToCustomerOnQueue () throws StaffNotAuthorizedException, InsufficientFundException {
-        assertFalse(ugoBossStore.getCustomersQueue().isEmpty());
-        adminOperation.sellToCustomersInQueue(ugoBossStore, cashier);
-        assertTrue(ugoBossStore.getCustomersQueue().isEmpty());
-    }
+//    @Test
+//    public void testForSellingToCustomerOnQueue () throws StaffNotAuthorizedException, InsufficientFundException {
+//        assertFalse(ugoBossStore.getCustomersQueue().isEmpty());
+//        adminOperation.sellToCustomersInQueue(ugoBossStore, cashier);
+//        assertTrue(ugoBossStore.getCustomersQueue().isEmpty());
+//    }
     @Test
     public void testForCustomerJoiningQueueMoreThanOnce(){
         Exception exception = assertThrows(CannotJoinQueueTwice.class,

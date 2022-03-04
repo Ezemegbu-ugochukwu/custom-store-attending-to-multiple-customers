@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 public class CustomerImplTest {
     Store ugoBossStore = new Store("Decagon");
-    Customer customer = new Customer("ugo","Eze", Gender.MALE,500.00);
+    Customer customer = new Customer("ugo","Eze", Gender.MALE,5000000.00);
     Staff manager = new Staff("Chukuka", "Ebuka", Gender.MALE, Designation.MANAGER);
     Staff cashier = new Staff("Mope", "Oke", Gender.FEMALE, Designation.CASHIER);
     String excelFilePath = "src/main/resources/excelFiles/hugo_store.xlsx";
@@ -36,6 +36,13 @@ public class CustomerImplTest {
     public void productShouldBeSuccessfullyAddedToCart() throws OutOfStockException {
         customerOperationImpl.addToCart(ugoBossStore, customer, "MacBook pro", 6);
         assertTrue(customer.getCart().containsKey("MacBook pro"));
+    }
+    @Test
+    public void shouldRemoveFromCartSuccessfully() throws OutOfStockException, NotTheExactQuantityException {
+       customerOperationImpl.addToCart(ugoBossStore, customer, "MacBook pro", 2 );
+       customerOperationImpl.removeFromCart(customer,"MacBook pro",1);
+       assertEquals(1, customer.getCart().size());
+
     }
 
     @Test

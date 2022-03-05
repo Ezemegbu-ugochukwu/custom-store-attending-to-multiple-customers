@@ -25,4 +25,12 @@ public class Customer extends Person {
   public Map<String, Integer> getCart() {
     return cart;
   }
+
+  @Override
+  public String toString() {
+    return this.getFirstName() +"{" +
+            "walletBalance=" + walletBalance +
+            ", cart=" + cart +
+            '}';
+  }
 }

@@ -36,6 +36,7 @@ public class AdminOperationImpl implements AdminOperations{
     public void sellToCustomersInQueue(Store store, Staff staff) throws StaffNotAuthorizedException, InsufficientFundException {
         while(store.getCustomersQueue().hasNext())
             sellProduct(store, staff, store.getCustomersQueue().poll());
+//        System.out.println("selling to " + store.getCustomersQueue().peek());
     }
 
     @Override

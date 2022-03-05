@@ -60,6 +60,11 @@ public class CustomerQueue {
             size--;
             return e;
         }
+
+//        public Customer peek() {
+//            return queue.value;
+//        }
+
         public boolean hasNext(){
             return size > 0;
         }

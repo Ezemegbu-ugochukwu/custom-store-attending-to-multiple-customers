@@ -26,11 +26,32 @@ public class Main {
         Customer love = new Customer("love", "Chukwu", Gender.MALE, 80000000);
         Customer moses = new Customer("moses", "Chukwu", Gender.MALE, 80000000);
         Customer ben = new Customer("ben", "Chukwu", Gender.MALE, 80000000);
-
-
-
+        Customer david = new Customer("david", "Chukwu", Gender.MALE, 80000000);
 
         adminOperation.addProductsToStore(hugoBoss, manager);
+//        System.out.println(ugoBossStore.getStocks());
+        customerOperation.addToCart(hugoBoss,love,"MacBook pro",10);  //3
+        customerOperation.addToCart(hugoBoss,ben,"Iphone",5);//5
+        customerOperation.addToCart(hugoBoss,ugo,"MacBook pro",7);  //2
+        customerOperation.addToCart(hugoBoss,moses,"Hp EliteBook",15);  //1
+        customerOperation.addToCart(hugoBoss,david,"Tecno Camera",1); //4
+
+        customerOperation.joinQueue(hugoBoss,moses); //1
+        customerOperation.joinQueue(hugoBoss,love); //3
+        customerOperation.joinQueue(hugoBoss,david); //4
+        customerOperation.joinQueue(hugoBoss,ugo);// 2
+        customerOperation.joinQueue(hugoBoss,ben);//5
+
+
+        System.out.println(hugoBoss.getCustomersQueue());
+
+
+//        adminOperation.addProductsToStore(hugoBoss, manager);
+        adminOperation.sellToCustomersInQueue(hugoBoss,cashier);
+
+
+
+
 //        System.out.println(hugoBoss.getStocks());
 
 
@@ -40,19 +61,19 @@ public class Main {
 
     //    adminOperation.viewProductByCategory(hugoBoss, "Laptops");
 //        customerOperation.addToCart(hugoBoss, ugo, "MacBook pro", 20);
-        customerOperation.addToCart(hugoBoss, ugo, "Iphone", 3);
-        customerOperation.addToCart(hugoBoss, love, "MacBook pro", 1);
-        customerOperation.addToCart(hugoBoss, moses, "MacBook pro", 7);
-        customerOperation.addToCart(hugoBoss, ben, "Tecno ", 3);
+//        customerOperation.addToCart(hugoBoss, ugo, "Iphone", 3);
+//        customerOperation.addToCart(hugoBoss, love, "MacBook pro", 1);
+//        customerOperation.addToCart(hugoBoss, moses, "MacBook pro", 7);
+//        customerOperation.addToCart(hugoBoss, ben, "Tecno ", 3);
+//
+//        customerOperation.joinQueue(hugoBoss,ben);
+//        customerOperation.joinQueue(hugoBoss,love);
+//        customerOperation.joinQueue(hugoBoss,ugo);
+//        customerOperation.joinQueue(hugoBoss,moses);
 
-        customerOperation.joinQueue(hugoBoss,ben);
-        customerOperation.joinQueue(hugoBoss,love);
-        customerOperation.joinQueue(hugoBoss,ugo);
-        customerOperation.joinQueue(hugoBoss,moses);
-
-        while (hugoBoss.getCustomersQueue().hasNext()){
-            System.out.println(hugoBoss.getCustomersQueue().poll());
-        }
+//        while (hugoBoss.getCustomersQueue().hasNext()){
+//            System.out.println(hugoBoss.getCustomersQueue().poll());
+//        }
 
 
 

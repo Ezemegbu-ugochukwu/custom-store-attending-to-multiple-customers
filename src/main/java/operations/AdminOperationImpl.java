@@ -8,6 +8,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AdminOperationImpl implements AdminOperations{
 
@@ -31,32 +33,30 @@ public class AdminOperationImpl implements AdminOperations{
             }
     }
 
-//    @Override
-//    public void sellToCustomersInQueue(Store store, Staff staff) throws StaffNotAuthorizedException, InsufficientFundException {
-//        while(store.getCustomersQueue().hasNext())
-//            sellProduct(store, staff, store.getCustomersQueue().poll());
-//
-//    }
-
-//    @Override
-//    public void sellProduct (Store store, Staff staff, Customer customer) throws InsufficientFundException, StaffNotAuthorizedException {
-//        if(!(staff.getDesignation()  == Designation.CASHIER)) throw new StaffNotAuthorizedException("Only cashier can sell goods!");
-//            double totalPrice = 0.00;
-//            for (var products : customer.getCart().entrySet()){
-//                double productPrice = store.getStocks().get(products.getKey()).getPrice();
-//                totalPrice += productPrice * products.getValue();
-//            }
-//            if (customer.getWalletBalance() < totalPrice) throw new InsufficientFundException("Insufficient fund!");
-//
-//            for (var products : customer.getCart().entrySet()){
-//                Product product = store.getStocks().get(products.getKey());
-//                product.setQuantity(product.getQuantity() - products.getValue());
-//            }
-//
-//            customer.getCart().clear();
-//        }
     @Override
-    public void sellProduct (Store store, Staff staff, Customer customer) throws StaffNotAuthorizedException, InsufficientFundException {
+    public void sellToCustomersInQueue(Store store, Staff staff) {
+
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        for (Customer customer : store.getCustomersQueue()){
+            executorService.execute(()->{
+                try {
+                    System.out.println("Selling to " + customer.getFirstName() +  " using "
+                            + Thread.currentThread().getName());
+                    sellProduct(store, staff, customer);
+                } catch (OutOfStockException | InsufficientFundException  | StaffNotAuthorizedException e) {
+                    e.printStackTrace();
+                } finally {
+                    store.getCustomersQueue().clear();
+                }
+            });
+        }
+        executorService.shutdown();
+    }
+
+    @Override
+    public void sellProduct (Store store, Staff staff, Customer customer) throws StaffNotAuthorizedException, InsufficientFundException, OutOfStockException {
+        var customerProduct = customer.getCart().entrySet().iterator().next();
+        if (customerProduct.getValue() > store.getStocks().get(customerProduct.getKey()).getQuantity()) throw new OutOfStockException("Company does not have up to required product!");
         if (!staff.getDesignation().equals(Designation.CASHIER)) throw new StaffNotAuthorizedException("Only cashier can sell product");
         double totalPrice = 0.00;
 

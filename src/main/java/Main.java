@@ -1,13 +1,10 @@
-import application.ApplicationImpl;
 import enums.Designation;
 import enums.Gender;
 import enums.Qualification;
 import exceptions.*;
 import model.*;
 import operations.AdminOperationImpl;
-import operations.AdminOperations;
 import operations.CustomerOperationImpl;
-import operations.SellToCustomerThread;
 import recruitment.RecruitmentImpl;
 
 import java.io.IOException;
@@ -50,10 +47,11 @@ public class Main {
 //        System.out.println(System.currentTimeMillis() - start);
 
         System.out.println("MacBook before sale : " + hugoBoss.getStocks().get("MacBook pro"));
-        SellToCustomerThread sellToCustomerThread = new SellToCustomerThread();
-        sellToCustomerThread.sell(hugoBoss, cashier);
-        Thread.sleep(1500);
-        System.out.println("MacBook after sale : " + hugoBoss.getStocks().get("MacBook pro"));
+        System.out.println(hugoBoss.getStocks());
+        adminOperation.sellToCustomersInQueue(hugoBoss, cashier);
+//        Thread.sleep(1500);
+        System.out.println(hugoBoss.getStocks());
+        //System.out.println("MacBook after sale : " + hugoBoss.getStocks().get("MacBook pro"));
 
 
 

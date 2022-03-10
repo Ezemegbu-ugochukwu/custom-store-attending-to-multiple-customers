@@ -86,7 +86,7 @@ public class AdminImplTest {
     public void testForSellingToCustomerOnQueue () throws StaffNotAuthorizedException, InsufficientFundException, CannotJoinQueueTwice {
         //assertFalse(ugoBossStore..getCustomersQueue().isEmpty());
         customerImpl.joinQueue(ugoBossStore,customer);
-        adminOperationImpl.sellToCustomersInQueue(ugoBossStore, cashier);
+//        adminOperationImpl.sellToCustomersInQueue(ugoBossStore, cashier);
         assertTrue(ugoBossStore.getCustomersQueue().isEmpty());
     }
 

@@ -13,5 +13,6 @@ import java.io.IOException;
 public interface AdminOperations extends CommonOperations {
     void sellProduct (Store store, Staff cashier, Customer customer) throws InsufficientFundException, CustomerNotCheckedOutException, StaffNotAuthorizedException;
     void addProductsToStore(Store store, Staff staff) throws StaffNotAuthorizedException;
-    void sellToCustomersInQueue(Store store, Staff staff) throws StaffNotAuthorizedException, InsufficientFundException;
+//    void sellToCustomersInQueue(Store store, Staff staff) throws StaffNotAuthorizedException, InsufficientFundException;
+//    void sellTOCustomerInQueue(Store store, Staff staff) throws StaffNotAuthorizedException, InsufficientFundException;
 }

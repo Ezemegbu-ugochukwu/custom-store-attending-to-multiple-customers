@@ -1,16 +1,18 @@
 package model;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Product {
    private final String productName;
    private final String productCategory;
    private final double price;
-   private int quantity;
+   private AtomicInteger quantity = new AtomicInteger(0);
 
     public Product(String productName, String productCategory, double price, int quantity) {
        this.productName = productName;
        this.productCategory = productCategory;
        this.price = price;
-       this.quantity = quantity;
+       this.quantity.set(quantity);
    }
 
     public String getProductName() {return productName;}
@@ -23,12 +25,10 @@ public class Product {
         return price;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
+    public int getQuantity() {return quantity.get();}
 
     public void setQuantity(int quantity) {
-        this.quantity = quantity;
+        this.quantity.set(quantity);
     }
 
     @Override

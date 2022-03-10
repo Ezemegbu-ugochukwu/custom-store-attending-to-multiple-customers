@@ -7,12 +7,13 @@ import model.*;
 import operations.AdminOperationImpl;
 import operations.AdminOperations;
 import operations.CustomerOperationImpl;
+import operations.SellToCustomerThread;
 import recruitment.RecruitmentImpl;
 
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws InsufficientFundException, OutOfStockException, ApplicantAlreadyAppliedException, NotTheExactQuantityException, CustomerNotCheckedOutException, NotQualifiedException, StaffNotAuthorizedException, IOException, CannotJoinQueueTwice {
+    public static void main(String[] args) throws InsufficientFundException, OutOfStockException, ApplicantAlreadyAppliedException, NotTheExactQuantityException, CustomerNotCheckedOutException, NotQualifiedException, StaffNotAuthorizedException, IOException, CannotJoinQueueTwice, InterruptedException {
          AdminOperationImpl adminOperation = new AdminOperationImpl();
         CustomerOperationImpl customerOperation = new CustomerOperationImpl();
         RecruitmentImpl recruitment = new RecruitmentImpl();
@@ -42,12 +43,22 @@ public class Main {
         customerOperation.joinQueue(hugoBoss,ugo);// 2
         customerOperation.joinQueue(hugoBoss,ben);//5
 
+//        long start = System.currentTimeMillis();
+//        for (Customer customer : hugoBoss.getCustomersQueue()){
+//            adminOperation.sellProduct(hugoBoss, cashier, customer);
+//        }
+//        System.out.println(System.currentTimeMillis() - start);
 
-        System.out.println(hugoBoss.getCustomersQueue());
+        System.out.println("MacBook before sale : " + hugoBoss.getStocks().get("MacBook pro"));
+        SellToCustomerThread sellToCustomerThread = new SellToCustomerThread();
+        sellToCustomerThread.sell(hugoBoss, cashier);
+        Thread.sleep(1500);
+        System.out.println("MacBook after sale : " + hugoBoss.getStocks().get("MacBook pro"));
+
 
 
 //        adminOperation.addProductsToStore(hugoBoss, manager);
-        adminOperation.sellToCustomersInQueue(hugoBoss,cashier);
+//        adminOperation.sellToCustomersInQueue(hugoBoss,cashier);
 
 
 

@@ -17,7 +17,6 @@ public class AdminOperationImpl implements AdminOperations{
 
             try {
                 XSSFWorkbook xssfWorkbook = new XSSFWorkbook("src/main/resources/excelFiles/ugo-store.xlsx");
-//                XSSFWorkbook xssfWorkbook = new XSSFWorkbook(path);
                 XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
                 for (int i = 1; i <= xssfSheet.getLastRowNum(); i++) {
                 XSSFRow xssfRow = xssfSheet.getRow(i);
@@ -32,28 +31,51 @@ public class AdminOperationImpl implements AdminOperations{
             }
     }
 
+//    @Override
+//    public void sellToCustomersInQueue(Store store, Staff staff) throws StaffNotAuthorizedException, InsufficientFundException {
+//        while(store.getCustomersQueue().hasNext())
+//            sellProduct(store, staff, store.getCustomersQueue().poll());
+//
+//    }
+
+//    @Override
+//    public void sellProduct (Store store, Staff staff, Customer customer) throws InsufficientFundException, StaffNotAuthorizedException {
+//        if(!(staff.getDesignation()  == Designation.CASHIER)) throw new StaffNotAuthorizedException("Only cashier can sell goods!");
+//            double totalPrice = 0.00;
+//            for (var products : customer.getCart().entrySet()){
+//                double productPrice = store.getStocks().get(products.getKey()).getPrice();
+//                totalPrice += productPrice * products.getValue();
+//            }
+//            if (customer.getWalletBalance() < totalPrice) throw new InsufficientFundException("Insufficient fund!");
+//
+//            for (var products : customer.getCart().entrySet()){
+//                Product product = store.getStocks().get(products.getKey());
+//                product.setQuantity(product.getQuantity() - products.getValue());
+//            }
+//
+//            customer.getCart().clear();
+//        }
     @Override
-    public void sellToCustomersInQueue(Store store, Staff staff) throws StaffNotAuthorizedException, InsufficientFundException {
-        while(store.getCustomersQueue().hasNext())
-            sellProduct(store, staff, store.getCustomersQueue().poll());
-//        System.out.println("selling to " + store.getCustomersQueue().peek());
+    public void sellProduct (Store store, Staff staff, Customer customer) throws StaffNotAuthorizedException, InsufficientFundException {
+        if (!staff.getDesignation().equals(Designation.CASHIER)) throw new StaffNotAuthorizedException("Only cashier can sell product");
+        double totalPrice = 0.00;
+
+        for (var products :  customer.getCart().entrySet()){
+            double productPrice = store.getStocks().get(products.getKey()).getPrice();
+            totalPrice += productPrice * products.getValue();
+        }
+        if (customer.getWalletBalance() < totalPrice) throw new InsufficientFundException("Insufficient fund");
+
+        for (var products : customer.getCart().entrySet()){
+          Product product =  store.getStocks().get(products.getKey());
+          product.setQuantity(product.getQuantity() - products.getValue());
+
+        }
+        customer.getCart().clear();
+        removeCustomerFromQueue(store, customer);
     }
 
-    @Override
-    public void sellProduct (Store store, Staff staff, Customer customer) throws InsufficientFundException, StaffNotAuthorizedException {
-        if(!(staff.getDesignation()  == Designation.CASHIER)) throw new StaffNotAuthorizedException("Only cashier can sell goods!");
-            double totalPrice = 0.00;
-            for (var products : customer.getCart().entrySet()){
-                double productPrice = store.getStocks().get(products.getKey()).getPrice();
-                totalPrice += productPrice * products.getValue();
-            }
-            if (customer.getWalletBalance() < totalPrice) throw new InsufficientFundException("Insufficient fund!");
-
-            for (var products : customer.getCart().entrySet()){
-                Product product = store.getStocks().get(products.getKey());
-                product.setQuantity(product.getQuantity() - products.getValue());
-            }
-
-            customer.getCart().clear();
-        }
+    private  void removeCustomerFromQueue(Store store, Customer customer){
+        store.getCustomersQueue().remove(customer);
+    }
 }

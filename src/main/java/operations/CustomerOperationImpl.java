@@ -25,10 +25,20 @@ public class CustomerOperationImpl implements CustomerOperations{
         customer.getCart().computeIfPresent(productName, (k, v) -> v - quantity);
     }
 
+//    @Override
+//    public void joinQueue(Store store, Customer customer) throws CannotJoinQueueTwice {
+//        if (store.getCustomersQueue().contains(customer)) throw new CannotJoinQueueTwice("Customer is on the queue already");
+//        store.getCustomersQueue().add(customer);
+//    }
     @Override
     public void joinQueue(Store store, Customer customer) throws CannotJoinQueueTwice {
-        if (store.getCustomersQueue().contains(customer)) throw new CannotJoinQueueTwice("Customer is on the queue already");
-        store.getCustomersQueue().add(customer);
+        if (store.getCustomersQueue().contains(customer)){
+            throw new CannotJoinQueueTwice("customer is on the queue already");
+        }else {
+            store.getCustomersQueue().add(customer);
+        }
+
     }
+
 
 }

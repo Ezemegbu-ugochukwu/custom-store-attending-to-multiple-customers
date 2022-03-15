@@ -10,7 +10,7 @@ public class Store {
     private final List<Staff> ListOfStaffs = new ArrayList<>();
     private final List<Applicant> applicants = new ArrayList<>();
     private final Stocks stocks = new Stocks();
-   // private final CustomerQueue customersQueue = new CustomerQueue();
+
     private final List<Customer> customersQueue = new Vector<>();
 
     public Store (String name){

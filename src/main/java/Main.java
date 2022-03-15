@@ -40,28 +40,18 @@ public class Main {
         customerOperation.joinQueue(hugoBoss,ugo);// 2
         customerOperation.joinQueue(hugoBoss,ben);//5
 
-//        long start = System.currentTimeMillis();
-//        for (Customer customer : hugoBoss.getCustomersQueue()){
-//            adminOperation.sellProduct(hugoBoss, cashier, customer);
-//        }
-//        System.out.println(System.currentTimeMillis() - start);
 
+        System.out.println(Thread.currentThread().getName());
         System.out.println("MacBook before sale : " + hugoBoss.getStocks().get("MacBook pro"));
         System.out.println(hugoBoss.getStocks());
         adminOperation.sellToCustomersInQueue(hugoBoss, cashier);
-//        Thread.sleep(1500);
+//
         System.out.println(hugoBoss.getStocks());
-        //System.out.println("MacBook after sale : " + hugoBoss.getStocks().get("MacBook pro"));
-
-
-
-//        adminOperation.addProductsToStore(hugoBoss, manager);
-//        adminOperation.sellToCustomersInQueue(hugoBoss,cashier);
 
 
 
 
-//        System.out.println(hugoBoss.getStocks());
+//
 
 
 
